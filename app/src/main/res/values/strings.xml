@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">AndroidPOS</string>
+    <string name="app_name">Android POS</string>
+    <string name="items">Items</string>
+    <string name="sell">Sell</string>
+    <string name="order_history">Order History</string>
+    <string name="customers">Customers</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
