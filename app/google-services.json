@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "411995030314",
+    "firebase_url": "https://androidpos-886a2.firebaseio.com",
+    "project_id": "androidpos-886a2",
+    "storage_bucket": "androidpos-886a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411995030314:android:8bdc21e50cd6e673",
+        "android_client_info": {
+          "package_name": "com.example.vamshedhar.androidpos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411995030314-5lq0tjtl2ma9j1lj9uu7vo6ncmfmo5e9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vamshedhar.androidpos",
+            "certificate_hash": "3c1b3d096765fc6ba1570b462398622cd8c85956"
+          }
+        },
+        {
+          "client_id": "411995030314-ked6h54hk7nb8b9evs5f5jm7qlckcdsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaJ-31CXvGOL__MV6OU5uaoqs-tTJvXvI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411995030314-ked6h54hk7nb8b9evs5f5jm7qlckcdsq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
