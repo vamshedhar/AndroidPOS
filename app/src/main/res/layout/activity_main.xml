@@ -8,13 +8,29 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+
+
     <RelativeLayout
-        android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.vamshedhar.androidpos.MainActivity">
 
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome"
+            android:padding="10dp"
+            android:textSize="18sp" />
 
+        <RelativeLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/welcomeText"
+            tools:context="com.example.vamshedhar.androidpos.MainActivity">
+
+        </RelativeLayout>
     </RelativeLayout>
 
 

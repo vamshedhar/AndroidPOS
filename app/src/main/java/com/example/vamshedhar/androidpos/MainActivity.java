@@ -4,29 +4,68 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vamshedhar.androidpos.fragments.ItemsFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "AndroidPOS";
 
+    public static final String ITEMS_FRAGMENT = "ITEMS_FRAGMENT";
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
-    private void goToLogin(){
+    private TextView welcomeText;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.left_navigation);
+        welcomeText = findViewById(R.id.welcomeText);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (currentUser == null){
+            goToLogin();
+        }
+
+        setWelcomeMessage();
+
+        setupDrawer();
+        loadNavigationListener();
+
+        loadDefaultFragment();
+
+    }
+
+    private void setWelcomeMessage(){
+        String username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
+        welcomeText.setText(getString(R.string.welcome) + " " + username.toUpperCase() + ",");
+    }
+
+    private void goToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -34,22 +73,13 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    private void loadDefaultFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.main_container, new ItemsFragment(), MainActivity.ITEMS_FRAGMENT)
+                .commit();
+    }
 
-        mAuth = FirebaseAuth.getInstance();
-
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        setupDrawer();
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        navigationView = findViewById(R.id.left_navigation);
-
+    private void loadNavigationListener(){
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
