@@ -14,6 +14,10 @@
         <item
             android:id="@+id/nav_customers"
             android:title="@string/customers" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:title="@string/logout" />
     </group>
 
 </menu>
