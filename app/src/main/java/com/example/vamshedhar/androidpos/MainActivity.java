@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vamshedhar.androidpos.fragments.CustomersFragment;
 import com.example.vamshedhar.androidpos.fragments.ItemsFragment;
+import com.example.vamshedhar.androidpos.fragments.OrderHistoryFragment;
+import com.example.vamshedhar.androidpos.fragments.SellFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -23,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "AndroidPOS";
 
     public static final String ITEMS_FRAGMENT = "ITEMS_FRAGMENT";
+    public static final String SELL_FRAGMENT = "SELL_FRAGMENT";
+    public static final String ORDER_HISTORY_FRAGMENT = "ORDER_HISTORY_FRAGMENT";
+    public static final String CUSTOMERS_FRAGMENT = "CUSTOMERS_FRAGMENT";
+
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -79,20 +88,40 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    private void loadFragment(Fragment fragment, String FRAGMENT_TAG){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container, fragment, FRAGMENT_TAG)
+                .commit();
+    }
+
     private void loadNavigationListener(){
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                if (menuItem.getItemId() == R.id.nav_logout){
-                    mAuth.signOut();
-                    Toast.makeText(MainActivity.this, "Successfully logged out!", Toast.LENGTH_SHORT).show();
-                    goToLogin();
-                } else{
-                    menuItem.setChecked(true);
-
-                    mDrawerLayout.closeDrawers();
+                switch (menuItem.getItemId()){
+                    case R.id.nav_logout:
+                        mAuth.signOut();
+                        Toast.makeText(MainActivity.this, "Successfully logged out!", Toast.LENGTH_SHORT).show();
+                        goToLogin();
+                        break;
+                    case R.id.nav_items:
+                        loadFragment(new ItemsFragment(), MainActivity.ITEMS_FRAGMENT);
+                        break;
+                    case R.id.nav_sell:
+                        loadFragment(new SellFragment(), MainActivity.SELL_FRAGMENT);
+                        break;
+                    case R.id.nav_history:
+                        loadFragment(new OrderHistoryFragment(), MainActivity.ORDER_HISTORY_FRAGMENT);
+                        break;
+                    case R.id.nav_customers:
+                        loadFragment(new CustomersFragment(), MainActivity.CUSTOMERS_FRAGMENT);
+                        break;
                 }
+
+                menuItem.setChecked(true);
+
+                mDrawerLayout.closeDrawers();
 
                 return false;
             }
@@ -118,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
