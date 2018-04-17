@@ -1,13 +1,18 @@
 package com.example.vamshedhar.androidpos.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.vamshedhar.androidpos.R;
+import com.example.vamshedhar.androidpos.activities.MainActivity;
 import com.example.vamshedhar.androidpos.objects.Item;
 
 import java.util.ArrayList;
@@ -20,15 +25,17 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
 
     private ArrayList<Item> items;
     private ItemListInterface IData;
+    private Context context;
 
     public interface ItemListInterface {
-        void onItemClick(String id);
+        void onItemUpdate(String id);
         void onItemLongClick(String id);
     }
 
 
-    public ItemListAdapter(ArrayList<Item> items, ItemListInterface IData) {
+    public ItemListAdapter(ArrayList<Item> items, Context context, ItemListInterface IData) {
         this.items = items;
+        this.context = context;
         this.IData = IData;
     }
 
@@ -41,7 +48,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Item item = items.get(position);
+        final Item item = items.get(position);
 
         holder.itemName.setText(item.getName());
         holder.itemPrice.setText("$" + item.getPrice());
@@ -51,8 +58,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String itemId = (String) view.getTag();
-                IData.onItemClick(itemId);
+                IData.onItemUpdate((String) view.getTag());
             }
         });
 

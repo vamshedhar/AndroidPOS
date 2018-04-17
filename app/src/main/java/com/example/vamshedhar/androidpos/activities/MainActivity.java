@@ -23,7 +23,7 @@ import com.example.vamshedhar.androidpos.fragments.SellFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements ItemListAdapter.ItemListInterface {
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "AndroidPOS";
 
@@ -177,13 +177,4 @@ public class MainActivity extends AppCompatActivity implements ItemListAdapter.I
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onItemClick(String id) {
-
-    }
-
-    @Override
-    public void onItemLongClick(String id) {
-
-    }
 }

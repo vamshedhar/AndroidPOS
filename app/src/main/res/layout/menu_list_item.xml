@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="15dp"
-            android:paddingTop="15dp">
+            android:paddingTop="15dp"
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:id="@+id/itemName"

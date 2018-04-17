@@ -17,4 +17,5 @@
     <string name="add_item">Add Item Button</string>
     <string name="item_name">Item Name</string>
     <string name="demo_price">$100</string>
+    <string name="price">Price</string>
 </resources>
