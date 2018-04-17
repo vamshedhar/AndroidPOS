@@ -15,6 +15,8 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TAG = "AndroidPOS";
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView navigationView;
