@@ -34,8 +34,6 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
     private RecyclerView.Adapter itemListAdapter;
     private RecyclerView.LayoutManager itemsListLayoutManager;
 
-    private ItemsFragmentListener mListener;
-
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private String username;
@@ -63,7 +61,7 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
         itemsMap = new HashMap<>();
 
         for (int i = 0; i < 20; i++) {
-            itemsMap.put(i + "", new Item(i + "", "Demo Item " + i, "vamshedhar", 20 + i));
+            itemsMap.put(i + "", new Item(i + "", "Demo Item " + i, username, 20 + i));
         }
 
         itemsListLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -79,22 +77,6 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof ItemsFragmentListener) {
-//            mListener = (ItemsFragmentListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement ItemsFragmentListener");
-//        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-//        mListener = null;
-    }
 
     private void updateItem(String id, String newName, String newPrice){
         Item item = itemsMap.get(id);
@@ -162,10 +144,5 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
         });
 
         deleteItemDiag.show();
-    }
-
-    public interface ItemsFragmentListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction();
     }
 }
