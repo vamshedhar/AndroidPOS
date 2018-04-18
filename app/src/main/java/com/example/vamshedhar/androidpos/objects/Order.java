@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public class Order extends CreatedTimeObject implements Comparable<Order> {
     private String id, created_user, customer_id;
+
+//    private Customer customer;
     private ArrayList<OrderItem> items;
     private float base_value, tax, total_amount;
 
