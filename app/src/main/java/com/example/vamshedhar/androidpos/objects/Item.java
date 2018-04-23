@@ -9,12 +9,12 @@ import android.support.annotation.NonNull;
 public class Item extends CreatedTimeObject implements Comparable<Item> {
 
     private String id, name, created_user;
-    private float price;
+    private double price;
 
     public Item() {
     }
 
-    public Item(String id, String name, String created_user, float price) {
+    public Item(String id, String name, String created_user, double price) {
         super();
         this.id = id;
         this.name = name;
@@ -46,11 +46,11 @@ public class Item extends CreatedTimeObject implements Comparable<Item> {
         this.created_user = created_user;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

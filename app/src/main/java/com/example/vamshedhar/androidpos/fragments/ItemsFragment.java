@@ -1,19 +1,17 @@
 package com.example.vamshedhar.androidpos.fragments;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.vamshedhar.androidpos.R;
@@ -21,9 +19,17 @@ import com.example.vamshedhar.androidpos.adapters.ItemListAdapter;
 import com.example.vamshedhar.androidpos.objects.Item;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
 
 
 public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListInterface {
@@ -33,9 +39,12 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
     private RecyclerView itemsList;
     private RecyclerView.Adapter itemListAdapter;
     private RecyclerView.LayoutManager itemsListLayoutManager;
+    private ImageView addItemBtn;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private DatabaseReference databaseReference;
+    private DatabaseReference itemsReference;
     private String username;
 
     public ItemsFragment() {
@@ -52,21 +61,100 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
         super.onActivityCreated(savedInstanceState);
 
         itemsList = getView().findViewById(R.id.itemsList);
+        addItemBtn = getView().findViewById(R.id.addItemBtn);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        itemsReference = databaseReference.child("items");
+
         username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
-
-        itemsMap = new HashMap<>();
-
-        for (int i = 0; i < 20; i++) {
-            itemsMap.put(i + "", new Item(i + "", "Demo Item " + i, username, 20 + i));
-        }
 
         itemsListLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         itemsList.setLayoutManager(itemsListLayoutManager);
-        loadItems();
+
+        fetchItems();
+
+        addItemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addItemClick();
+            }
+        });
+    }
+
+    public void addItemClick(){
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View textEntryView = inflater.inflate(R.layout.edit_item, null);
+
+        final EditText itemNameET = textEntryView.findViewById(R.id.itemName);
+        final EditText itemPriceET = textEntryView.findViewById(R.id.itemPrice);
+
+
+        final AlertDialog.Builder addItemAlert = new AlertDialog.Builder(getActivity());
+
+        addItemAlert.setTitle("Add Item:").setView(textEntryView).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                addItem(itemNameET.getText().toString().trim(), itemPriceET.getText().toString().trim());
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Nothing happens here
+            }
+        });
+
+        addItemAlert.show();
+    }
+
+    public boolean isValidItem(String itemName, String itemPrice){
+        if (itemName.isEmpty()){
+            return false;
+        }
+
+        try {
+            Double.parseDouble(itemPrice);
+        } catch (Exception e){
+            return false;
+        }
+
+        return true;
+    }
+
+    public void addItem(String itemName, String itemPrice){
+
+        if (!isValidItem(itemName, itemPrice)){
+            Toast.makeText(getActivity(), "Please Enter Valid Details!", LENGTH_SHORT).show();
+            return;
+        }
+
+        String id = itemsReference.push().getKey();
+        Item item = new Item(id, itemName, username, Double.parseDouble(itemPrice));
+
+        itemsReference.child(id).setValue(item);
+
+    }
+
+    public void fetchItems(){
+        itemsReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                itemsMap = new HashMap<>();
+
+                for (DataSnapshot itemSnap : dataSnapshot.getChildren()){
+                    itemsMap.put(itemSnap.getKey(), itemSnap.getValue(Item.class));
+                }
+
+                loadItems();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void loadItems(){
@@ -79,16 +167,21 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
 
 
     private void updateItem(String id, String newName, String newPrice){
+
+        if (!isValidItem(newName, newPrice)){
+            Toast.makeText(getActivity(), "Please Enter Valid Details!", LENGTH_SHORT).show();
+            return;
+        }
+
         Item item = itemsMap.get(id);
         item.setName(newName);
-        item.setPrice(Float.parseFloat(newPrice));
-        itemsMap.put(item.getId(), item);
-        loadItems();
+        item.setPrice(Double.parseDouble(newPrice));
+
+        itemsReference.child(id).setValue(item);
     }
 
     private void deleteItem(String id){
-        itemsMap.remove(id);
-        loadItems();
+        itemsReference.child(id).removeValue();
     }
 
     @Override
