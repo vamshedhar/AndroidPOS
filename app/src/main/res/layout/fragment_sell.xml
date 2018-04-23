@@ -20,10 +20,10 @@
             android:id="@+id/customerCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
             android:orientation="vertical"
             android:paddingBottom="15dp"
-            android:paddingTop="15dp">
+            android:paddingTop="15dp"
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:id="@+id/addCustomerLabel"

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.example.vamshedhar.androidpos.R;
+import com.example.vamshedhar.androidpos.activities.AddCustomerActivity;
 import com.example.vamshedhar.androidpos.adapters.ItemListAdapter;
 import com.example.vamshedhar.androidpos.adapters.SellItemListAdapter;
 import com.example.vamshedhar.androidpos.objects.Item;
@@ -37,6 +38,8 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
 
     HashMap<String, Item> itemsMap;
     HashMap<String, OrderItem> orderItemsMap;
+
+    private static final int ADD_CUSTOMER = 44;
 
     private RecyclerView itemsList;
     private SellItemListAdapter itemListAdapter;
@@ -85,6 +88,20 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
         orderItemsMap = new HashMap<>();
 
         fetchItems();
+
+
+        customerCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddCustomerActivity.class);
+                startActivityForResult(intent, ADD_CUSTOMER);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void fetchItems(){
