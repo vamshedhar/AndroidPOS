@@ -13,6 +13,9 @@ public class Customer extends CreatedTimeObject implements Comparable<Customer> 
     private String email;
     private String created_user;
     private String phone_no;
+    private String last_order;
+    private double total_order_amount;
+    private int total_orders;
 
     public Customer(String id, String name, String email, String created_user, String phone_no) {
         this.id = id;
@@ -20,9 +23,33 @@ public class Customer extends CreatedTimeObject implements Comparable<Customer> 
         this.email = email;
         this.created_user = created_user;
         this.phone_no = phone_no;
+        this.last_order = "";
+        this.total_order_amount = 0;
     }
 
+    public int getTotalOrders() {
+        return total_orders;
+    }
 
+    public void setTotalOrders(int total_orders) {
+        this.total_orders = total_orders;
+    }
+
+    public String getLastOrder() {
+        return last_order;
+    }
+
+    public void setLastOrder(String last_order) {
+        this.last_order = last_order;
+    }
+
+    public double getTotalOrderAmount() {
+        return total_order_amount;
+    }
+
+    public void setTotalOrderAmount(double total_order_amount) {
+        this.total_order_amount = total_order_amount;
+    }
 
     public Customer() {
 
