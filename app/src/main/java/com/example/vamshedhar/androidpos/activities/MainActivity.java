@@ -2,6 +2,7 @@ package com.example.vamshedhar.androidpos.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,14 +17,16 @@ import android.widget.Toast;
 
 import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.adapters.ItemListAdapter;
+import com.example.vamshedhar.androidpos.fragments.CurrentOrdersFragment;
 import com.example.vamshedhar.androidpos.fragments.CustomersFragment;
 import com.example.vamshedhar.androidpos.fragments.ItemsFragment;
 import com.example.vamshedhar.androidpos.fragments.OrderHistoryFragment;
+import com.example.vamshedhar.androidpos.fragments.PastOrdersFragment;
 import com.example.vamshedhar.androidpos.fragments.SellFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CurrentOrdersFragment.OnFragmentInteractionListener, PastOrdersFragment.OnFragmentInteractionListener {
 
     public static final String TAG = "AndroidPOS";
 
@@ -177,4 +180,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
