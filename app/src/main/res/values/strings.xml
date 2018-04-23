@@ -18,4 +18,6 @@
     <string name="item_name">Item Name</string>
     <string name="demo_price">$100</string>
     <string name="price">Price</string>
+    <string name="complete_order">Complete Order</string>
+    <string name="add_customer">Add Customer</string>
 </resources>

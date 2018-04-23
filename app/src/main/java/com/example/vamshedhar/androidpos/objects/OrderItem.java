@@ -6,26 +6,26 @@ package com.example.vamshedhar.androidpos.objects;
 
 public class OrderItem {
     private String item_id;
-    private float quantity, amount;
+    private double quantity, amount;
 
     public OrderItem() {
     }
 
-    public OrderItem(String item_id, float quantity, float amount) {
+    public OrderItem(String item_id, double quantity, double amount) {
         this.item_id = item_id;
         this.quantity = quantity;
         this.amount = amount;
     }
 
-    public String getItem_id() {
+    public String getItemId() {
         return item_id;
     }
 
-    public void setItem_id(String item_id) {
+    public void setItemId(String item_id) {
         this.item_id = item_id;
     }
 
-    public float getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
@@ -33,7 +33,7 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 

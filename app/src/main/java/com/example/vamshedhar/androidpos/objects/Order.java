@@ -13,7 +13,7 @@ public class Order extends CreatedTimeObject implements Comparable<Order> {
 
 //    private Customer customer;
     private ArrayList<OrderItem> items;
-    private float base_value, tax, total_amount;
+    private double base_value, tax, total_amount;
 
     public Order() {
     }
@@ -56,15 +56,15 @@ public class Order extends CreatedTimeObject implements Comparable<Order> {
         return items;
     }
 
-    public float getBaseValue() {
+    public double getBaseValue() {
         return base_value;
     }
 
-    public float getTax() {
+    public double getTax() {
         return tax;
     }
 
-    public float getTotalAmount() {
+    public double getTotalAmount() {
         return total_amount;
     }
 
@@ -72,7 +72,7 @@ public class Order extends CreatedTimeObject implements Comparable<Order> {
         this.items.add(item);
 
         this.base_value += item.getAmount();
-        float tax = item.getAmount() * Tax.tax_percent/100;
+        double tax = item.getAmount() * Tax.tax_percent/100;
 
         this.tax += tax;
 
