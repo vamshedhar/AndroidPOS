@@ -1,6 +1,8 @@
 package com.example.vamshedhar.androidpos.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,15 +72,34 @@ public class SellItemListAdapter extends RecyclerView.Adapter<SellItemListAdapte
                     holder.saleQty.setText(quantity + "");
                 }
 
-
             }
         });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                String itemId = (String) view.getTag();
-                IData.onItemLongClick(itemId);
+                final String itemId = (String) view.getTag();
+
+                if (!holder.saleQty.getText().toString().isEmpty()){
+                    AlertDialog.Builder deleteItemDiag = new AlertDialog.Builder(context);
+
+                    deleteItemDiag.setTitle("Are you sure you want to remove item from order?")
+                            .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    holder.saleQty.setText("");
+                                    IData.onItemLongClick(itemId);
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+
+                    deleteItemDiag.show();
+                }
+
                 return false;
             }
         });

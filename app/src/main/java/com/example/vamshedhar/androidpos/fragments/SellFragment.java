@@ -17,6 +17,7 @@ import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.adapters.ItemListAdapter;
 import com.example.vamshedhar.androidpos.adapters.SellItemListAdapter;
 import com.example.vamshedhar.androidpos.objects.Item;
+import com.example.vamshedhar.androidpos.objects.Order;
 import com.example.vamshedhar.androidpos.objects.OrderItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -114,16 +115,30 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
         }
     }
 
+    public void recalculateTotals(){
+        Order order = new Order();
+        for (OrderItem orderItem : orderItemsMap.values()){
+            order.addItem(orderItem);
+        }
+
+        completeOrder.setText(getString(R.string.complete_order) + " ($" + order.getTotalAmount() + ")");
+
+    }
+
     @Override
     public void onItemAdd(String id, int quantity) {
         Item item = itemsMap.get(id);
         OrderItem orderItem = new OrderItem(id, quantity, item.getPrice() * quantity);
         orderItemsMap.put(id, orderItem);
         itemListAdapter.setOrderItemHashMap(orderItemsMap);
+
+        recalculateTotals();
     }
 
     @Override
     public void onItemLongClick(String id) {
-
+        orderItemsMap.remove(id);
+        itemListAdapter.setOrderItemHashMap(orderItemsMap);
+        recalculateTotals();
     }
 }

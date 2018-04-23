@@ -16,6 +16,10 @@ public class Order extends CreatedTimeObject implements Comparable<Order> {
     private double base_value, tax, total_amount;
 
     public Order() {
+        this.items = new ArrayList<>();
+        this.base_value = 0;
+        this.tax = 0;
+        this.total_amount = 0;
     }
 
     public Order(String id, String created_user, String customer_id) {
