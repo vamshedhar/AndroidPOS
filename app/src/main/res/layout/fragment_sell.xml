@@ -1,13 +1,67 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.vamshedhar.androidpos.fragments.SellFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:elevation="5dp"
+        card_view:cardCornerRadius="5dp">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/customerCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:id="@+id/addCustomerLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_customer"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/itemsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/sell" />
+        android:layout_above="@id/completeOrderButton"
+        android:layout_below="@+id/card_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" />
 
-</FrameLayout>
+
+    <Button
+        android:id="@+id/completeOrderButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/complete_order"
+        android:textAllCaps="false"
+        android:textSize="24sp" />
+
+
+</RelativeLayout>
