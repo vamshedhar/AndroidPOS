@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.AddCustomerActivity"></activity>
+        <activity android:name=".activities.AddCustomerActivity" />
+        <activity android:name=".activities.FinishOrderActivity"></activity>
     </application>
 
 </manifest>

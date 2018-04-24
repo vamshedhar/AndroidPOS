@@ -20,4 +20,7 @@
     <string name="price">Price</string>
     <string name="complete_order">Complete Order</string>
     <string name="add_customer">Add Customer</string>
+    <string name="confirm_order">Confirm Order</string>
+    <string name="Grand_Total">Grand Total</string>
+    <string name="Tax">Tax Amount</string>
 </resources>
