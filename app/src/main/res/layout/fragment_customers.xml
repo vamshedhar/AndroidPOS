@@ -1,13 +1,45 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.vamshedhar.androidpos.fragments.CustomersFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/addCustomerBtn"
+        android:layout_toStartOf="@+id/addCustomerBtn"
+        android:text="@string/customers"
+        android:textAllCaps="true"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/addCustomerBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/add_item"
+        android:src="@android:drawable/ic_input_add"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/customersList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/customers" />
+        android:layout_below="@+id/addCustomerBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp" />
 
-</FrameLayout>
+</RelativeLayout>
