@@ -245,6 +245,7 @@ public class CustomersFragment extends Fragment implements CustomersListAdapter.
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //delete customer
+                        deleteCustomer(customer.getId());
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
