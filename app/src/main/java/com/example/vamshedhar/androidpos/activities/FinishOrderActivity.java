@@ -13,6 +13,7 @@ import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.adapters.OrderDetailsListAdapter;
 import com.example.vamshedhar.androidpos.adapters.SellItemListAdapter;
 import com.example.vamshedhar.androidpos.fragments.SellFragment;
+import com.example.vamshedhar.androidpos.objects.Customer;
 import com.example.vamshedhar.androidpos.objects.Item;
 import com.example.vamshedhar.androidpos.objects.Order;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 public class FinishOrderActivity extends AppCompatActivity {
 
     private Order order;
+    private Customer selectedCustomer;
     private TextView customerName, customerNumber, subTotal, taxAmount, grandTotal;
     private Button completeOrder;
     HashMap<String, Item> itemsMap;
@@ -42,6 +44,7 @@ public class FinishOrderActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private DatabaseReference itemsReference;
     private DatabaseReference ordersReference;
+    private DatabaseReference customersReference;
     private String username;
 
     @Override
@@ -66,9 +69,27 @@ public class FinishOrderActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
+        selectedCustomer = null;
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
         itemsReference = databaseReference.child("items");
         ordersReference = databaseReference.child("orders");
+        customersReference = databaseReference.child("customers");
+
+        if (order.getCustomerId() != null){
+            customersReference.child(order.getCustomerId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    selectedCustomer = dataSnapshot.getValue(Customer.class);
+                    loadCustomerDetails();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
 
         username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
 
@@ -88,12 +109,27 @@ public class FinishOrderActivity extends AppCompatActivity {
                 order.setId(id);
                 ordersReference.child(id).setValue(order);
 
+                if (selectedCustomer != null){
+                    DatabaseReference selectedCustomerRef = customersReference.child(selectedCustomer.getId());
+
+                    selectedCustomerRef.child("totalOrders").setValue(selectedCustomer.getTotalOrders() + 1);
+                    selectedCustomerRef.child("totalOrderAmount").setValue(selectedCustomer.getTotalOrderAmount() + order.getTotalAmount());
+                    selectedCustomerRef.child("lastOrder").setValue(order.getCreatedTime());
+                }
+
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
 
+    }
+
+    public void loadCustomerDetails(){
+        if (selectedCustomer != null){
+            customerName.setText(selectedCustomer.getName());
+            customerNumber.setText(selectedCustomer.getPhone_no());
+        }
     }
 
     public void fetchItems(){
