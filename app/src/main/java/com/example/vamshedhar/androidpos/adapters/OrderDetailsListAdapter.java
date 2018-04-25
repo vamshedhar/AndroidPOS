@@ -57,7 +57,7 @@ public class OrderDetailsListAdapter extends RecyclerView.Adapter<OrderDetailsLi
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            itemDetails  = itemView.findViewById(R.id.itemName);
+            itemDetails  = itemView.findViewById(R.id.customerName);
             saleAmt  = itemView.findViewById(R.id.amount);
         }
     }
