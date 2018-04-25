@@ -2,16 +2,16 @@ package com.example.vamshedhar.androidpos.objects;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by vamshedhar on 4/17/18.
  */
 
-public class Order extends CreatedTimeObject implements Comparable<Order> {
+public class Order extends CreatedTimeObject implements Comparable<Order>, Serializable {
     private String id, created_user, customer_id;
 
-//    private Customer customer;
     private ArrayList<OrderItem> items;
     private double base_value, tax, total_amount;
 

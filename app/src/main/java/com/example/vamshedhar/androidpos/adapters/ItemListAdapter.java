@@ -1,18 +1,13 @@
 package com.example.vamshedhar.androidpos.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.vamshedhar.androidpos.R;
-import com.example.vamshedhar.androidpos.activities.MainActivity;
 import com.example.vamshedhar.androidpos.objects.Item;
 
 import java.util.ArrayList;
@@ -84,8 +79,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            itemName  = itemView.findViewById(R.id.itemName);
-            itemPrice  = itemView.findViewById(R.id.itemPrice);
+            itemName  = itemView.findViewById(R.id.customerName);
+            itemPrice  = itemView.findViewById(R.id.customerNumber);
         }
     }
 }

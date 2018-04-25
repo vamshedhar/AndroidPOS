@@ -88,8 +88,8 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View textEntryView = inflater.inflate(R.layout.edit_item, null);
 
-        final EditText itemNameET = textEntryView.findViewById(R.id.itemName);
-        final EditText itemPriceET = textEntryView.findViewById(R.id.itemPrice);
+        final EditText itemNameET = textEntryView.findViewById(R.id.customerName);
+        final EditText itemPriceET = textEntryView.findViewById(R.id.customerNumber);
 
 
         final AlertDialog.Builder addItemAlert = new AlertDialog.Builder(getActivity());
@@ -192,8 +192,8 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View textEntryView = inflater.inflate(R.layout.edit_item, null);
 
-        final EditText itemNameET = textEntryView.findViewById(R.id.itemName);
-        final EditText itemPriceET = textEntryView.findViewById(R.id.itemPrice);
+        final EditText itemNameET = textEntryView.findViewById(R.id.customerName);
+        final EditText itemPriceET = textEntryView.findViewById(R.id.customerNumber);
 
         itemNameET.setText(item.getName());
         itemPriceET.setText(item.getPrice() + "");

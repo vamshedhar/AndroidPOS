@@ -2,11 +2,13 @@ package com.example.vamshedhar.androidpos.objects;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * Created by vamshedhar on 4/17/18.
  */
 
-public class Customer extends CreatedTimeObject implements Comparable<Customer> {
+public class Customer extends CreatedTimeObject implements Comparable<Customer>, Serializable {
 
     private String id;
     private String name;

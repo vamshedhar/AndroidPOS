@@ -12,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.activities.AddCustomerActivity;
+import com.example.vamshedhar.androidpos.activities.FinishOrderActivity;
 import com.example.vamshedhar.androidpos.adapters.ItemListAdapter;
 import com.example.vamshedhar.androidpos.adapters.SellItemListAdapter;
+import com.example.vamshedhar.androidpos.objects.Customer;
 import com.example.vamshedhar.androidpos.objects.Item;
 import com.example.vamshedhar.androidpos.objects.Order;
 import com.example.vamshedhar.androidpos.objects.OrderItem;
@@ -38,8 +41,13 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
 
     HashMap<String, Item> itemsMap;
     HashMap<String, OrderItem> orderItemsMap;
+    Customer selectedCustomer;
 
-    private static final int ADD_CUSTOMER = 44;
+    public static final int ADD_CUSTOMER = 44;
+    public static final int FINISH_ORDER = 45;
+
+    public static final String FINISH_ORDER_KEY = "ORDER_DETAILS";
+    public static final String CUSTOMER_DETAILS = "CUSTOMER_DETAILS";
 
     private RecyclerView itemsList;
     private SellItemListAdapter itemListAdapter;
@@ -53,6 +61,7 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
 
     private RelativeLayout customerCard;
     private Button completeOrder;
+    private TextView addCustomerLabel;
 
 
     public SellFragment() {
@@ -73,9 +82,12 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
         itemsList = getView().findViewById(R.id.itemsList);
         customerCard = getView().findViewById(R.id.customerCard);
         completeOrder = getView().findViewById(R.id.completeOrderButton);
+        addCustomerLabel = getView().findViewById(R.id.addCustomerLabel);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+
+        selectedCustomer = null;
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         itemsReference = databaseReference.child("items");
@@ -89,7 +101,6 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
 
         fetchItems();
 
-
         customerCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,11 +108,48 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
                 startActivityForResult(intent, ADD_CUSTOMER);
             }
         });
+
+        completeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Order order = new Order();
+                order.setId("");
+                order.setCreatedUser(username);
+
+                if (selectedCustomer != null){
+                    order.setCustomerId(selectedCustomer.getId());
+                }
+
+                for (OrderItem orderItem : orderItemsMap.values()){
+                    order.addItem(orderItem);
+                }
+
+                Intent intent = new Intent(getActivity(), FinishOrderActivity.class);
+                intent.putExtra(FINISH_ORDER_KEY, order);
+                startActivityForResult(intent, FINISH_ORDER);
+
+            }
+        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == FINISH_ORDER && resultCode == getActivity().RESULT_OK){
+            orderItemsMap = new HashMap<>();
+            fetchItems();
+            completeOrder.setText(getString(R.string.complete_order));
+            addCustomerLabel.setText("Add Customer");
+            selectedCustomer = null;
+        } else if (requestCode == ADD_CUSTOMER && resultCode == getActivity().RESULT_OK){
+            selectedCustomer = (Customer) data.getSerializableExtra(CUSTOMER_DETAILS);
+            loadCustomerDetails();
+        }
+    }
+    
+    public void loadCustomerDetails(){
+        addCustomerLabel.setText(selectedCustomer.getName() + " (" + selectedCustomer.getPhone_no() +")");
     }
 
     public void fetchItems(){

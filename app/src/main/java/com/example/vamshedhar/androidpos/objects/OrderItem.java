@@ -1,10 +1,12 @@
 package com.example.vamshedhar.androidpos.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by vamshedhar on 4/17/18.
  */
 
-public class OrderItem {
+public class OrderItem implements Serializable {
     private String item_id;
     private double quantity, amount;
 

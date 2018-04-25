@@ -23,4 +23,7 @@
     <string name="customer_name">Customer Name</string>
     <string name="phone">Phone Number</string>
     <string name="email">email</string>
+    <string name="confirm_order">Confirm Order</string>
+    <string name="Grand_Total">Grand Total</string>
+    <string name="Tax">Tax Amount</string>
 </resources>
