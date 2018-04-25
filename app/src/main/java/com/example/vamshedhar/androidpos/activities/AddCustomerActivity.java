@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,34 +15,45 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.vamshedhar.androidpos.R;
+import com.example.vamshedhar.androidpos.adapters.CustomersListAdapter;
 import com.example.vamshedhar.androidpos.fragments.SellFragment;
 import com.example.vamshedhar.androidpos.objects.Customer;
 import com.example.vamshedhar.androidpos.objects.Item;
+import com.example.vamshedhar.androidpos.objects.Order;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class AddCustomerActivity extends AppCompatActivity {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class AddCustomerActivity extends AppCompatActivity implements CustomersListAdapter.CustomersListInterface{
 
     private RecyclerView customersList;
     private RecyclerView.Adapter customerListAdapter;
     private RecyclerView.LayoutManager customersListLayoutManager;
 
-    private ImageView addCustomer;
+    private ImageView add_customer;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
     private DatabaseReference customersReference;
     private String username;
+    HashMap<String, Customer> customersMap;
+    private RecyclerView.Adapter customersListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_customer);
 
-        addCustomer = findViewById(R.id.addCustomer);
+        add_customer = findViewById(R.id.addCustomer);
         customersList = findViewById(R.id.customersList);
 
         mAuth = FirebaseAuth.getInstance();
@@ -55,22 +67,23 @@ public class AddCustomerActivity extends AppCompatActivity {
         customersListLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         customersList.setLayoutManager(customersListLayoutManager);
 
-        addCustomer.setOnClickListener(new View.OnClickListener() {
+        add_customer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LayoutInflater inflater = LayoutInflater.from(AddCustomerActivity.this);
                 final View textEntryView = inflater.inflate(R.layout.add_customer, null);
 
                 final EditText customerNameET = textEntryView.findViewById(R.id.customerName);
-                final EditText customerNumberET = textEntryView.findViewById(R.id.customerNumber);
+                final EditText customerNumberET = textEntryView.findViewById(R.id.customerPhone);
+                final EditText customerEmailET = textEntryView.findViewById(R.id.customerEmail);
 
 
-                final AlertDialog.Builder addCustomer = new AlertDialog.Builder(AddCustomerActivity.this);
+                final AlertDialog.Builder addcustomer = new AlertDialog.Builder(AddCustomerActivity.this);
 
-                addCustomer.setTitle("Add Customer:").setView(textEntryView).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                addcustomer.setTitle("Add Customer:").setView(textEntryView).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        addCustomer(customerNameET.getText().toString().trim(), customerNumberET.getText().toString().trim());
+                        addCustomer(customerNameET.getText().toString().trim(), customerNumberET.getText().toString().trim(), customerEmailET.getText().toString().trim());
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -79,9 +92,43 @@ public class AddCustomerActivity extends AppCompatActivity {
                     }
                 });
 
-                addCustomer.show();
+                addcustomer.show();
             }
         });
+
+
+        fetchCustomers();
+    }
+
+
+    public void fetchCustomers(){
+        customersReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                customersMap = new HashMap<>();
+
+                for (DataSnapshot customerSnap : dataSnapshot.getChildren()){
+                    Customer customer = customerSnap.getValue(Customer.class);
+                    customersMap.put(customer.getId(), customer);
+                }
+
+                loadItems();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void loadItems(){
+        if (customersMap != null){
+            ArrayList<Customer> customers = new ArrayList<>(customersMap.values());
+            Log.d("loadItems: ", customers.size()+"");
+            customersListAdapter = new CustomersListAdapter(customers, AddCustomerActivity.this, this);
+            customersList.setAdapter(customersListAdapter);
+        }
     }
 
     public boolean isValidCustomer(String name, String phoneNumber){
@@ -96,13 +143,13 @@ public class AddCustomerActivity extends AppCompatActivity {
         return true;
     }
 
-    public void addCustomer(String name, String phoneNumber){
+    public void addCustomer(String name, String phoneNumber, String email){
         if (!isValidCustomer(name, phoneNumber)){
             return;
         }
 
         String id = customersReference.push().getKey();
-        Customer customer = new Customer(id, name, "", username, phoneNumber);
+        Customer customer = new Customer(id, name, email, username, phoneNumber);
 
         customersReference.child(id).setValue(customer);
 
@@ -110,6 +157,24 @@ public class AddCustomerActivity extends AppCompatActivity {
         intent.putExtra(SellFragment.CUSTOMER_DETAILS, customer);
         setResult(RESULT_OK, intent);
         finish();
+
+    }
+
+    @Override
+    public void onCustomerUpdate(String id) {
+
+        final Customer customer = customersMap.get(id);
+
+        Intent intent = new Intent();
+        intent.putExtra(SellFragment.CUSTOMER_DETAILS, customer);
+        setResult(RESULT_OK, intent);
+        finish();
+
+
+    }
+
+    @Override
+    public void onItemLongClick(String id) {
 
     }
 }

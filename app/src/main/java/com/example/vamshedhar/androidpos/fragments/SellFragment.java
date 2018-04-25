@@ -7,12 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.activities.AddCustomerActivity;
@@ -105,6 +107,7 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddCustomerActivity.class);
+
                 startActivityForResult(intent, ADD_CUSTOMER);
             }
         });
@@ -124,9 +127,18 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
                     order.addItem(orderItem);
                 }
 
-                Intent intent = new Intent(getActivity(), FinishOrderActivity.class);
-                intent.putExtra(FINISH_ORDER_KEY, order);
-                startActivityForResult(intent, FINISH_ORDER);
+                if (orderItemsMap.size() > 0) {
+
+
+
+                    Intent intent = new Intent(getActivity(), FinishOrderActivity.class);
+                    intent.putExtra(FINISH_ORDER_KEY, order);
+
+                    startActivityForResult(intent, FINISH_ORDER);
+                }
+                else{
+                    Toast.makeText(getActivity(), "No Items Selected", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
