@@ -15,7 +15,7 @@ import com.example.vamshedhar.androidpos.objects.Item;
 import com.example.vamshedhar.androidpos.objects.Order;
 import com.example.vamshedhar.androidpos.objects.OrderItem;
 
-//import org.ocpsoft.prettytime.PrettyTime;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,9 +59,9 @@ public class PastOrdersAdapter extends RecyclerView.Adapter<PastOrdersAdapter.Vi
         holder.orderID.setText(order.getId().substring(1, 8));
         holder.orderAmount.setText("$" + (int) Math.ceil(order.getTotalAmount()) + "");
 
-//        PrettyTime prettyTime = new PrettyTime();
-//
-//        holder.orderTime.setText(prettyTime.format(new Date(order.getCreateTimestamp())));
+        PrettyTime prettyTime = new PrettyTime();
+
+        holder.orderTime.setText(prettyTime.format(new Date(order.getCreateTimestamp())));
 
         if (order.getCustomerId() != null && !order.getCustomerId().isEmpty() && customersMap.containsKey(order.getCustomerId())){
             Customer customer = customersMap.get(order.getCustomerId());

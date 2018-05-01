@@ -99,9 +99,9 @@ public class Order extends CreatedTimeObject implements Comparable<Order>, Seria
     @Override
     public int compareTo(@NonNull Order order) {
         if (this.getCreateTimestamp() < order.getCreateTimestamp()){
-            return -1;
-        } else if (this.getCreateTimestamp() > order.getCreateTimestamp()){
             return 1;
+        } else if (this.getCreateTimestamp() > order.getCreateTimestamp()){
+            return -1;
         }
 
         return 0;

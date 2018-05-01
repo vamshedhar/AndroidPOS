@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -100,13 +102,21 @@ public class PastOrdersFragment extends Fragment implements PastOrdersAdapter.Pa
     }
 
     public void fetchOrders(){
+
         ordersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ordersMap = new HashMap<>();
-
+                Calendar now = Calendar.getInstance();
                 for (DataSnapshot itemSnap : dataSnapshot.getChildren()){
-                    ordersMap.put(itemSnap.getKey(), itemSnap.getValue(Order.class));
+                    Order order = itemSnap.getValue(Order.class);
+                    Calendar timeToCheck = Calendar.getInstance();
+                    timeToCheck.setTimeInMillis(order.getCreateTimestamp());
+
+                    if(now.get(Calendar.DAY_OF_YEAR) != timeToCheck.get(Calendar.DAY_OF_YEAR)){
+                        ordersMap.put(itemSnap.getKey(), order);
+                    }
+
                 }
 
                 loadOrders();
@@ -122,6 +132,7 @@ public class PastOrdersFragment extends Fragment implements PastOrdersAdapter.Pa
     public void loadOrders(){
         if (ordersMap != null){
             orders = new ArrayList<>(ordersMap.values());
+            Collections.sort(orders);
             orderListAdapter = new PastOrdersAdapter(orders, customersMap, this, getActivity());
             ordersList.setAdapter(orderListAdapter);
         }
