@@ -16,7 +16,10 @@ import com.example.vamshedhar.androidpos.activities.MainActivity;
 import com.example.vamshedhar.androidpos.objects.Customer;
 import com.example.vamshedhar.androidpos.objects.Item;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdapter.ViewHolder> {
 
@@ -54,6 +57,15 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
 
         holder.customerView.setTag(customer.getId());
 
+        Log.d(MainActivity.TAG, customer.getLastOrderTime() + "");
+
+        if (customer.getLastOrderTime() != -1){
+            PrettyTime prettyTime = new PrettyTime();
+            holder.lastOrder.setText("Last Order: " + prettyTime.format(new Date(customer.getLastOrderTime())));
+        } else {
+            holder.lastOrder.setText("");
+        }
+
 
         holder.customerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +93,7 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView customerName, customerPhone;
+        TextView customerName, customerPhone, lastOrder;
         View customerView;
         public ViewHolder(View customerView) {
             super(customerView);
@@ -89,6 +101,7 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
             this.customerView = customerView;
             customerName  = customerView.findViewById(R.id.customerName);
             customerPhone  = customerView.findViewById(R.id.customerPhone);
+            lastOrder = customerView.findViewById(R.id.lastOrder);
         }
     }
 }

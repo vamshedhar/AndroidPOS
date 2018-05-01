@@ -87,6 +87,9 @@ public class FinishOrderActivity extends AppCompatActivity {
 
                 }
             });
+        } else {
+            customerName.setText("No Customer Added");
+            customerNumber.setText("");
         }
 
         username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
@@ -127,6 +130,9 @@ public class FinishOrderActivity extends AppCompatActivity {
         if (selectedCustomer != null){
             customerName.setText(selectedCustomer.getName());
             customerNumber.setText(selectedCustomer.getPhone_no());
+        } else {
+            customerName.setText("No Customer Added");
+            customerNumber.setText("");
         }
     }
 

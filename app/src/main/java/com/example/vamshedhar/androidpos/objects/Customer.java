@@ -2,6 +2,8 @@ package com.example.vamshedhar.androidpos.objects;
 
 import android.support.annotation.NonNull;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -42,10 +44,15 @@ public class Customer extends CreatedTimeObject implements Comparable<Customer>,
         return last_order;
     }
 
+    public HashMap<String, Object> getLastOrder() {
+        return last_order;
+    }
+
     public void setLast_order(HashMap<String, Object> last_order) {
         this.last_order = last_order;
     }
 
+    @Exclude
     public long getLastOrderTime() {
         if (last_order != null){
             return (long) last_order.get("timestamp");
