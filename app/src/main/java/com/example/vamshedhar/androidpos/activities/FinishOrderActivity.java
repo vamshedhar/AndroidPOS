@@ -114,7 +114,7 @@ public class FinishOrderActivity extends AppCompatActivity {
 
                     selectedCustomerRef.child("totalOrders").setValue(selectedCustomer.getTotalOrders() + 1);
                     selectedCustomerRef.child("totalOrderAmount").setValue(selectedCustomer.getTotalOrderAmount() + order.getTotalAmount());
-                    selectedCustomerRef.child("lastOrder").setValue(order.getCreateTimestamp());
+                    selectedCustomerRef.child("lastOrder").setValue(order.getCreatedTime());
                 }
 
                 Intent intent = new Intent();

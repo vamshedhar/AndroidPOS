@@ -12,6 +12,7 @@ public class Item extends CreatedTimeObject implements Comparable<Item> {
     private double price;
 
     public Item() {
+        super();
     }
 
     public Item(String id, String name, String created_user, double price) {

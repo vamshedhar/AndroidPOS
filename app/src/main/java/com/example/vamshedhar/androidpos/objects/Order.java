@@ -16,6 +16,7 @@ public class Order extends CreatedTimeObject implements Comparable<Order>, Seria
     private double base_value, tax, total_amount;
 
     public Order() {
+        super();
         this.items = new ArrayList<>();
         this.base_value = 0;
         this.tax = 0;
