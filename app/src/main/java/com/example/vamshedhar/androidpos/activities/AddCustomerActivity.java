@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.adapters.CustomersListAdapter;
@@ -37,6 +38,7 @@ public class AddCustomerActivity extends AppCompatActivity implements CustomersL
     private RecyclerView customersList;
     private RecyclerView.Adapter customerListAdapter;
     private RecyclerView.LayoutManager customersListLayoutManager;
+    private ProgressBar loader;
 
     private ImageView add_customer;
 
@@ -55,6 +57,7 @@ public class AddCustomerActivity extends AppCompatActivity implements CustomersL
 
         add_customer = findViewById(R.id.addCustomer);
         customersList = findViewById(R.id.customersList);
+        loader = findViewById(R.id.loader);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -102,6 +105,8 @@ public class AddCustomerActivity extends AppCompatActivity implements CustomersL
 
 
     public void fetchCustomers(){
+        loader.setVisibility(View.VISIBLE);
+        customersList.setVisibility(View.INVISIBLE);
         customersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -123,6 +128,8 @@ public class AddCustomerActivity extends AppCompatActivity implements CustomersL
     }
 
     public void loadItems(){
+        loader.setVisibility(View.INVISIBLE);
+        customersList.setVisibility(View.VISIBLE);
         if (customersMap != null){
             ArrayList<Customer> customers = new ArrayList<>(customersMap.values());
             Log.d("loadItems: ", customers.size()+"");

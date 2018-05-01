@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
     private RecyclerView itemsList;
     private SellItemListAdapter itemListAdapter;
     private RecyclerView.LayoutManager itemsListLayoutManager;
+    private ProgressBar loader;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -85,6 +87,7 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
         customerCard = getView().findViewById(R.id.customerCard);
         completeOrder = getView().findViewById(R.id.completeOrderButton);
         addCustomerLabel = getView().findViewById(R.id.addCustomerLabel);
+        loader = getView().findViewById(R.id.loader);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -165,6 +168,8 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
     }
 
     public void fetchItems(){
+        loader.setVisibility(View.VISIBLE);
+        itemsList.setVisibility(View.INVISIBLE);
         itemsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -185,6 +190,8 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
     }
 
     public void loadItems(){
+        loader.setVisibility(View.INVISIBLE);
+        itemsList.setVisibility(View.VISIBLE);
         if (itemsMap != null){
             ArrayList<Item> items = new ArrayList<>(itemsMap.values());
             itemListAdapter = new SellItemListAdapter(items, orderItemsMap, getActivity(), this);

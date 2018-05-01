@@ -56,7 +56,7 @@ public class PastOrdersAdapter extends RecyclerView.Adapter<PastOrdersAdapter.Vi
 
         Order order = orders.get(position);
 
-        holder.orderID.setText(order.getId().substring(1, 8));
+        holder.orderID.setText(order.getId().substring(1, 8).toUpperCase());
         holder.orderAmount.setText("$" + (int) Math.ceil(order.getTotalAmount()) + "");
 
         PrettyTime prettyTime = new PrettyTime();

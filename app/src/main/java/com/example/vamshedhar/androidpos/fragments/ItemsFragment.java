@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.vamshedhar.androidpos.R;
@@ -40,6 +41,7 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
     private RecyclerView.Adapter itemListAdapter;
     private RecyclerView.LayoutManager itemsListLayoutManager;
     private ImageView addItemBtn;
+    private ProgressBar loader;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -62,6 +64,7 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
 
         itemsList = getView().findViewById(R.id.itemsList);
         addItemBtn = getView().findViewById(R.id.addItemBtn);
+        loader = getView().findViewById(R.id.loader);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -138,6 +141,8 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
     }
 
     public void fetchItems(){
+        loader.setVisibility(View.VISIBLE);
+        itemsList.setVisibility(View.INVISIBLE);
         itemsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -158,6 +163,8 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
     }
 
     public void loadItems(){
+        loader.setVisibility(View.INVISIBLE);
+        itemsList.setVisibility(View.VISIBLE);
         if (itemsMap != null){
             ArrayList<Item> items = new ArrayList<>(itemsMap.values());
             itemListAdapter = new ItemListAdapter(items, getActivity(), this);

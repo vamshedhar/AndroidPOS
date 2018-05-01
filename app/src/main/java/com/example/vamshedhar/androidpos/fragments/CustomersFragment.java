@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class CustomersFragment extends Fragment implements CustomersListAdapter.
     private RecyclerView.Adapter customersListAdapter;
     private RecyclerView.LayoutManager customersListLayoutManager;
     private ImageView addCustomerBtn;
+    private ProgressBar loader;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -76,6 +78,7 @@ public class CustomersFragment extends Fragment implements CustomersListAdapter.
 
         customersList = getView().findViewById(R.id.customersList);
         addCustomerBtn = getView().findViewById(R.id.addCustomerBtn);
+        loader = getView().findViewById(R.id.loader);
 
         customersListLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         customersList.setLayoutManager(customersListLayoutManager);
@@ -88,9 +91,6 @@ public class CustomersFragment extends Fragment implements CustomersListAdapter.
                 onAddCustomer();
             }
         });
-
-
-
 
     }
 
@@ -169,6 +169,8 @@ public class CustomersFragment extends Fragment implements CustomersListAdapter.
 
 
     public void fetchCustomers(){
+        loader.setVisibility(View.VISIBLE);
+        customersList.setVisibility(View.INVISIBLE);
         customersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -190,6 +192,8 @@ public class CustomersFragment extends Fragment implements CustomersListAdapter.
     }
 
     public void loadItems(){
+        loader.setVisibility(View.INVISIBLE);
+        customersList.setVisibility(View.VISIBLE);
         if (customersMap != null){
             ArrayList<Customer> customers = new ArrayList<>(customersMap.values());
             Log.d("loadItems: ", customers.size()+"");
