@@ -1,18 +1,22 @@
 package com.example.vamshedhar.androidpos.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.vamshedhar.androidpos.R;
+import com.example.vamshedhar.androidpos.activities.FinishOrderActivity;
+import com.example.vamshedhar.androidpos.activities.MainActivity;
 import com.example.vamshedhar.androidpos.adapters.ItemListAdapter;
 import com.example.vamshedhar.androidpos.adapters.PastOrdersAdapter;
 import com.example.vamshedhar.androidpos.objects.Customer;
@@ -37,6 +41,8 @@ public class PastOrdersFragment extends Fragment implements PastOrdersAdapter.Pa
     HashMap<String, Customer> customersMap;
     HashMap<String, Order> ordersMap;
     ArrayList<Order> orders;
+
+    public static String ORDER_DETAILS_KEY = "ORDER_DETAILS_KEY";
 
     private RecyclerView ordersList;
     private RecyclerView.Adapter orderListAdapter;
@@ -152,7 +158,11 @@ public class PastOrdersFragment extends Fragment implements PastOrdersAdapter.Pa
 
     @Override
     public void onItemClick(String id) {
-
+        Order order = ordersMap.get(id);
+        Intent intent = new Intent(getActivity(), FinishOrderActivity.class);
+        intent.putExtra(SellFragment.FINISH_ORDER_KEY, order);
+        intent.putExtra(ORDER_DETAILS_KEY, ORDER_DETAILS_KEY);
+        startActivity(intent);
     }
 
     @Override

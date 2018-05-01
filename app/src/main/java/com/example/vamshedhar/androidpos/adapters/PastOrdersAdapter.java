@@ -56,6 +56,8 @@ public class PastOrdersAdapter extends RecyclerView.Adapter<PastOrdersAdapter.Vi
 
         Order order = orders.get(position);
 
+        holder.itemView.setTag(order.getId());
+
         holder.orderID.setText(order.getId().substring(1, 8).toUpperCase());
         holder.orderAmount.setText("$" + (int) Math.ceil(order.getTotalAmount()) + "");
 
@@ -73,7 +75,8 @@ public class PastOrdersAdapter extends RecyclerView.Adapter<PastOrdersAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String id = (String) view.getTag();
+                IData.onItemClick(id);
             }
         });
 

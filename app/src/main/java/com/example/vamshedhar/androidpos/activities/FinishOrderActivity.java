@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.adapters.OrderDetailsListAdapter;
+import com.example.vamshedhar.androidpos.fragments.PastOrdersFragment;
 import com.example.vamshedhar.androidpos.fragments.SellFragment;
 import com.example.vamshedhar.androidpos.objects.Customer;
 import com.example.vamshedhar.androidpos.objects.Item;
@@ -50,12 +51,6 @@ public class FinishOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish_order);
 
-        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(SellFragment.FINISH_ORDER_KEY)){
-            order = (Order) getIntent().getExtras().getSerializable(SellFragment.FINISH_ORDER_KEY);
-        } else {
-            finish();
-        }
-
         customerName = findViewById(R.id.customerName);
         customerNumber = findViewById(R.id.customerPhone);
         subTotal = findViewById(R.id.subTotal);
@@ -63,6 +58,16 @@ public class FinishOrderActivity extends AppCompatActivity {
         grandTotal = findViewById(R.id.grandTotal);
         itemsList = findViewById(R.id.orderItems);
         completeOrder = findViewById(R.id.confirmOrder);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(SellFragment.FINISH_ORDER_KEY)){
+            order = (Order) getIntent().getExtras().getSerializable(SellFragment.FINISH_ORDER_KEY);
+            if (getIntent().getExtras().containsKey(PastOrdersFragment.ORDER_DETAILS_KEY)){
+                completeOrder.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            finish();
+        }
+
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();

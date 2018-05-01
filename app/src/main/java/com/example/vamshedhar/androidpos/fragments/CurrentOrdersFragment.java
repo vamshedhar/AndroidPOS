@@ -1,6 +1,7 @@
 package com.example.vamshedhar.androidpos.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.vamshedhar.androidpos.R;
+import com.example.vamshedhar.androidpos.activities.FinishOrderActivity;
 import com.example.vamshedhar.androidpos.adapters.PastOrdersAdapter;
 import com.example.vamshedhar.androidpos.objects.Customer;
 import com.example.vamshedhar.androidpos.objects.Order;
@@ -151,7 +153,11 @@ public class CurrentOrdersFragment extends Fragment implements PastOrdersAdapter
 
     @Override
     public void onItemClick(String id) {
-
+        Order order = ordersMap.get(id);
+        Intent intent = new Intent(getActivity(), FinishOrderActivity.class);
+        intent.putExtra(SellFragment.FINISH_ORDER_KEY, order);
+        intent.putExtra(PastOrdersFragment.ORDER_DETAILS_KEY, PastOrdersFragment.ORDER_DETAILS_KEY);
+        startActivity(intent);
     }
 
     @Override
