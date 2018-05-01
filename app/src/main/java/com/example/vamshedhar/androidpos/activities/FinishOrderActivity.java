@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.adapters.OrderDetailsListAdapter;
-import com.example.vamshedhar.androidpos.adapters.SellItemListAdapter;
 import com.example.vamshedhar.androidpos.fragments.SellFragment;
 import com.example.vamshedhar.androidpos.objects.Customer;
 import com.example.vamshedhar.androidpos.objects.Item;
@@ -24,7 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FinishOrderActivity extends AppCompatActivity {

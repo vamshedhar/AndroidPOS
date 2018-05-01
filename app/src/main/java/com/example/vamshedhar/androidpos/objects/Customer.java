@@ -16,7 +16,7 @@ public class Customer extends CreatedTimeObject implements Comparable<Customer>,
     private String email;
     private String created_user;
     private String phone_no;
-    HashMap<String, Object> last_order;
+    private HashMap<String, Object> last_order;
     private double total_order_amount;
     private int total_orders;
 
@@ -38,13 +38,12 @@ public class Customer extends CreatedTimeObject implements Comparable<Customer>,
         this.total_orders = total_orders;
     }
 
-//    public String getLastOrder() {
-//        return last_order;
-//    }
-//
-//    public void setLastOrder(String last_order) {
-//        this.last_order = last_order;
-//    }
+    public long getLastOrder() {
+        return (long) last_order.get("timestamp");
+    }
+    public void setLastOrder(HashMap<String, Object> last_order) {
+        this.last_order = last_order;
+    }
 
     public double getTotalOrderAmount() {
         return total_order_amount;
