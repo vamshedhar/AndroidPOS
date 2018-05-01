@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PastOrdersFragment">
 
+    <ProgressBar
+        android:id="@+id/loader"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/pastOrdersList"

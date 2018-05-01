@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.vamshedhar.androidpos.R;
 import com.example.vamshedhar.androidpos.adapters.PastOrdersAdapter;
@@ -37,6 +38,7 @@ public class CurrentOrdersFragment extends Fragment implements PastOrdersAdapter
     private RecyclerView ordersList;
     private RecyclerView.Adapter orderListAdapter;
     private RecyclerView.LayoutManager ordersListLayoutManager;
+    private ProgressBar loader;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -67,6 +69,7 @@ public class CurrentOrdersFragment extends Fragment implements PastOrdersAdapter
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ordersList = getView().findViewById(R.id.todaysOrdersList);
+        loader= getView().findViewById(R.id.loader);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -84,6 +87,8 @@ public class CurrentOrdersFragment extends Fragment implements PastOrdersAdapter
     }
 
     public void fetchCustomers(){
+        loader.setVisibility(View.VISIBLE);
+        ordersList.setVisibility(View.INVISIBLE);
         customersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -134,6 +139,8 @@ public class CurrentOrdersFragment extends Fragment implements PastOrdersAdapter
     }
 
     public void loadOrders(){
+        loader.setVisibility(View.INVISIBLE);
+        ordersList.setVisibility(View.VISIBLE);
         if (ordersMap != null){
             orders = new ArrayList<>(ordersMap.values());
             Collections.sort(orders);
