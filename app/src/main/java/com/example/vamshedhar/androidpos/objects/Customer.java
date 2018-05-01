@@ -38,8 +38,20 @@ public class Customer extends CreatedTimeObject implements Comparable<Customer>,
         this.total_orders = total_orders;
     }
 
-    public long getLastOrder() {
-        return (long) last_order.get("timestamp");
+    public HashMap<String, Object> getLast_order() {
+        return last_order;
+    }
+
+    public void setLast_order(HashMap<String, Object> last_order) {
+        this.last_order = last_order;
+    }
+
+    public long getLastOrderTime() {
+        if (last_order != null){
+            return (long) last_order.get("timestamp");
+        } else{
+            return -1;
+        }
     }
     public void setLastOrder(HashMap<String, Object> last_order) {
         this.last_order = last_order;
