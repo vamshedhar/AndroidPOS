@@ -77,11 +77,11 @@ public class PastOrdersFragment extends Fragment implements PastOrdersAdapter.Pa
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(username);
         customersReference = databaseReference.child("customers");
         ordersReference = databaseReference.child("orders");
-
-        username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
 
         ordersListLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         ordersList.setLayoutManager(ordersListLayoutManager);

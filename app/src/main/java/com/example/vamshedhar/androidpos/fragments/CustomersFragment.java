@@ -71,10 +71,10 @@ public class CustomersFragment extends Fragment implements CustomersListAdapter.
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        customersReference = databaseReference.child("customers");
-
         username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(username);
+        customersReference = databaseReference.child("customers");
 
         customersList = getView().findViewById(R.id.customersList);
         addCustomerBtn = getView().findViewById(R.id.addCustomerBtn);

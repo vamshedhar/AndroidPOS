@@ -72,9 +72,11 @@ public class FinishOrderActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
+        username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
+
         selectedCustomer = null;
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(username);
         itemsReference = databaseReference.child("items");
         ordersReference = databaseReference.child("orders");
         customersReference = databaseReference.child("customers");
@@ -96,8 +98,6 @@ public class FinishOrderActivity extends AppCompatActivity {
             customerName.setText("No Customer Added");
             customerNumber.setText("");
         }
-
-        username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
 
         itemsListLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         itemsList.setLayoutManager(itemsListLayoutManager);

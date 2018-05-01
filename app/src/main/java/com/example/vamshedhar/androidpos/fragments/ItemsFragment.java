@@ -70,10 +70,10 @@ public class ItemsFragment extends Fragment implements ItemListAdapter.ItemListI
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        itemsReference = databaseReference.child("items");
-
         username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(username);
+        itemsReference = databaseReference.child("items");
 
         itemsListLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         itemsList.setLayoutManager(itemsListLayoutManager);

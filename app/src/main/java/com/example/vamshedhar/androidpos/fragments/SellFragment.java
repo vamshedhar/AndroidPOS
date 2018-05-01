@@ -93,12 +93,12 @@ public class SellFragment extends Fragment implements SellItemListAdapter.SellIt
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
+        username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
+
         selectedCustomer = null;
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(username);
         itemsReference = databaseReference.child("items");
-
-        username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
 
         itemsListLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         itemsList.setLayoutManager(itemsListLayoutManager);

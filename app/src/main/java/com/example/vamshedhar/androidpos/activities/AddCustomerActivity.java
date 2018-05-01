@@ -63,10 +63,10 @@ public class AddCustomerActivity extends AppCompatActivity implements CustomersL
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        customersReference = databaseReference.child("customers");
-
         username = currentUser.getEmail().substring(0, currentUser.getEmail().indexOf('@'));
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child(username);
+        customersReference = databaseReference.child("customers");
 
         customersListLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         customersList.setLayoutManager(customersListLayoutManager);
