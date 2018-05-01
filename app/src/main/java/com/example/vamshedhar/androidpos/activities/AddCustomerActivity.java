@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class AddCustomerActivity extends AppCompatActivity implements CustomersListAdapter.CustomersListInterface{
@@ -132,6 +133,7 @@ public class AddCustomerActivity extends AppCompatActivity implements CustomersL
         customersList.setVisibility(View.VISIBLE);
         if (customersMap != null){
             ArrayList<Customer> customers = new ArrayList<>(customersMap.values());
+            Collections.sort(customers);
             Log.d("loadItems: ", customers.size()+"");
             customersListAdapter = new CustomersListAdapter(customers, AddCustomerActivity.this, this);
             customersList.setAdapter(customersListAdapter);

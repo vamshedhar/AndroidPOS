@@ -127,6 +127,12 @@ public class Customer extends CreatedTimeObject implements Comparable<Customer>,
 
     @Override
     public int compareTo(@NonNull Customer customer) {
-        return this.getName().compareTo(customer.getName());
+        if (this.getTotalOrders() < customer.getTotalOrders()){
+            return 1;
+        } else if (this.getTotalOrders() > customer.getTotalOrders()){
+            return -1;
+        }
+
+        return 0;
     }
 }
