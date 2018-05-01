@@ -102,9 +102,9 @@ public class FinishOrderActivity extends AppCompatActivity {
         itemsListLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         itemsList.setLayoutManager(itemsListLayoutManager);
 
-        subTotal.setText(order.getBaseValue()+"");
-        taxAmount.setText(order.getTax()+"");
-        grandTotal.setText(order.getTotalAmount()+"");
+        subTotal.setText(Math.floor(order.getBaseValue()*100)/100 + "");
+        taxAmount.setText(Math.floor(order.getTax()*100)/100 + "");
+        grandTotal.setText(Math.floor(order.getTotalAmount()*100)/100 + "");
 
         fetchItems();
 
