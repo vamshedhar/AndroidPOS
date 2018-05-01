@@ -1,54 +1,41 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.vamshedhar.androidpos.fragments.OrderHistoryFragment">
 
-    <RelativeLayout
+    <android.support.design.widget.TabLayout
+        android:id="@+id/orderTabs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" >
 
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="98dp"
-            android:layout_height="30dp"
-            android:text="@string/order_history" />
+        <android.support.design.widget.TabItem
+            android:id="@+id/current"
+            android:text="Today's Orders"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
 
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/orderTabs"
+        <android.support.design.widget.TabItem
+            android:id="@+id/past"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/header" >
+            android:text="Past Orders" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/current"
-                android:text="Current"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+    </android.support.design.widget.TabLayout>
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/past"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:text="Past" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/orderTabs">
 
-        </android.support.design.widget.TabLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="432dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true">
-
-        </android.support.v4.view.ViewPager>
-
-    </RelativeLayout>
+    </android.support.v4.view.ViewPager>
 
 
 
-</FrameLayout>
+</RelativeLayout>

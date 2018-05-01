@@ -33,6 +33,18 @@ public class Order extends CreatedTimeObject implements Comparable<Order>, Seria
         this.total_amount = 0;
     }
 
+    public void setBaseValue(double base_value) {
+        this.base_value = base_value;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+    public void setTotalAmount(double total_amount) {
+        this.total_amount = total_amount;
+    }
+
     public String getId() {
         return id;
     }

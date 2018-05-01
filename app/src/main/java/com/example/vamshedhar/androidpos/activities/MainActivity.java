@@ -26,7 +26,7 @@ import com.example.vamshedhar.androidpos.fragments.SellFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements CurrentOrdersFragment.OnFragmentInteractionListener, PastOrdersFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "AndroidPOS";
 
@@ -180,8 +180,4 @@ public class MainActivity extends AppCompatActivity implements CurrentOrdersFrag
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }
