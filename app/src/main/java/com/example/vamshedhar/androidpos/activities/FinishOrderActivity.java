@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,8 +24,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.util.HashMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
 
 public class FinishOrderActivity extends AppCompatActivity {
 
@@ -45,6 +57,8 @@ public class FinishOrderActivity extends AppCompatActivity {
     private DatabaseReference ordersReference;
     private DatabaseReference customersReference;
     private String username;
+
+    private OkHttpClient mClient = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +135,27 @@ public class FinishOrderActivity extends AppCompatActivity {
                     selectedCustomerRef.child("totalOrders").setValue(selectedCustomer.getTotalOrders() + 1);
                     selectedCustomerRef.child("totalOrderAmount").setValue(selectedCustomer.getTotalOrderAmount() + order.getTotalAmount());
                     selectedCustomerRef.child("lastOrder").setValue(order.getCreatedTime());
+
+                    try {
+                        post("https://restropos.herokuapp.com/sms", "Thank you for ordering with us! You order total is $" + order.getTotalAmount(), selectedCustomer.getPhone_no(),  new  Callback(){
+
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                    }
+                                });
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 Intent intent = new Intent();
@@ -128,6 +163,23 @@ public class FinishOrderActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+    Call post(String url, String text, String number, Callback callback) throws IOException{
+        Log.d(MainActivity.TAG, number + " " + text);
+        RequestBody formBody = new FormBody.Builder()
+                .add("To", "+1" + number)
+                .add("Body", text)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+
+        Call response = mClient.newCall(request);
+        response.enqueue(callback);
+        return response;
 
     }
 

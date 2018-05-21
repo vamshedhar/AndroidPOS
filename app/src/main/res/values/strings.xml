@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android POS</string>
+    <string name="app_name">RestroPOS</string>
     <string name="items">Items</string>
     <string name="sell">Sell</string>
     <string name="order_history">Order History</string>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vamshedhar.androidpos.activities.LoginActivity">
+    tools:context="com.example.vamshedhar.androidpos.activities.LoginActivity"
+    android:background="@color/colorWhite">
 
 
     <android.support.design.widget.TextInputLayout
@@ -15,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:id="@+id/textInputLayout"
         android:textSize="20sp">
 
@@ -63,4 +64,13 @@
         android:layout_alignTop="@+id/loginBtn"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/logo" />
+
 </RelativeLayout>
